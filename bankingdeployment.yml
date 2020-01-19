@@ -1,0 +1,30 @@
+apiVersion: apps/v1beta1  
+kind: Deployment  
+metadata:  
+  name: bk-api  
+spec:  
+  replicas: 2  
+  template:  
+    metadata:  
+      labels:  
+        app: bk-api  
+    spec:  
+      containers:  
+      - name: bk-api  
+        image: musicreg.azurecr.io/bankingapp:latest  
+        ports:  
+        - containerPort: 80
+      
+      imagePullSecrets:  
+      - name: banking-secret 
+---  
+apiVersion: v1  
+kind: Service  
+metadata:  
+  name: bk-api  
+spec:  
+  type: LoadBalancer  
+  ports:  
+  - port: 80  
+  selector:  
+    app: bk-api 
